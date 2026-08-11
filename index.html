@@ -1,0 +1,1863 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Software Approval Reference Packet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f5f4f0;
+        --card: #ffffff;
+        --ink: #1c2530;
+        --graphite: #4b5566;
+        --line: #c7cfd9;
+        --blueprint: #22415f;
+        --blueprint-2: #2f5a82;
+        --amber: #a8641a;
+        --amber-bg: #faf0dd;
+        --amber-line: #e3c384;
+        --flag: #8e2c2c;
+        --flag-bg: #fbe9e9;
+        --flag-line: #e0b3b3;
+        --ok-bg: #eaf1ec;
+        --ok-line: #bcd3c2;
+        --sans:
+          "IBM Plex Sans", -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+        --mono:
+          "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+          monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        line-height: 1.45;
+        padding: 0 0 80px;
+      }
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+
+      /* ---- Title block (engineering-drawing style header) ---- */
+      .titleblock {
+        background: var(--blueprint);
+        color: #eef3f7;
+        padding: 36px 0 0;
+        margin-bottom: 34px;
+      }
+      .titleblock .wrap {
+        padding-bottom: 0;
+      }
+      .titleblock h1 {
+        font-size: 26px;
+        font-weight: 700;
+        margin: 0 0 6px;
+        letter-spacing: 0.2px;
+      }
+      .titleblock .sub {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: #b9cbdb;
+        margin-bottom: 22px;
+        letter-spacing: 0.3px;
+      }
+      .tb-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid #3f6285;
+        font-family: var(--mono);
+        font-size: 11.5px;
+      }
+      .tb-cell {
+        border-right: 1px solid #3f6285;
+        padding: 10px 14px 12px;
+      }
+      .tb-cell:last-child {
+        border-right: none;
+      }
+      .tb-cell .k {
+        color: #9fb8cc;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        font-size: 10px;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .tb-cell .v {
+        color: #f4f7fa;
+        font-size: 13px;
+      }
+      .tb-cell input {
+        background: transparent;
+        border: none;
+        border-bottom: 1px dashed #6a8caa;
+        color: #f4f7fa;
+        font-family: var(--mono);
+        font-size: 13px;
+        width: 100%;
+        padding: 2px 0;
+      }
+      .tb-cell input::placeholder {
+        color: #7c9bb4;
+      }
+
+      /* ---- Intro / legend ---- */
+      .intro {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        padding: 20px 24px;
+        margin-bottom: 30px;
+        font-size: 14px;
+        color: var(--graphite);
+      }
+      .intro h2 {
+        font-size: 14px;
+        color: var(--ink);
+        margin: 0 0 8px;
+        font-weight: 600;
+      }
+      .intro p {
+        margin: 0 0 10px;
+      }
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        margin-top: 14px;
+        font-size: 12.5px;
+      }
+      .legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        display: inline-block;
+        flex: none;
+      }
+      .dot.ok {
+        background: var(--ok-bg);
+        border: 1px solid var(--ok-line);
+      }
+      .dot.flag {
+        background: var(--flag-bg);
+        border: 1px solid var(--flag-line);
+      }
+      .dot.warn {
+        background: var(--amber-bg);
+        border: 1px solid var(--amber-line);
+      }
+
+      /* ---- Category sections ---- */
+      .category {
+        margin: 38px 0 18px;
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+      }
+      .category .num {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: #fff;
+        background: var(--blueprint-2);
+        padding: 2px 8px;
+        border-radius: 2px;
+      }
+      .category h2 {
+        font-size: 16px;
+        margin: 0;
+        color: var(--blueprint);
+        font-weight: 700;
+      }
+      .category .count {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--graphite);
+        margin-left: auto;
+      }
+      hr.rule {
+        border: none;
+        border-top: 1px solid var(--line);
+        margin: 8px 0 20px;
+      }
+
+      /* ---- Item card ---- */
+      .item {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        margin-bottom: 18px;
+        overflow: hidden;
+        page-break-inside: avoid;
+      }
+      .item-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--line);
+        background: #fbfaf7;
+      }
+      .item-head .idx {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: #fff;
+        background: var(--graphite);
+        border-radius: 2px;
+        padding: 2px 7px;
+        flex: none;
+      }
+      .item-head .name {
+        font-weight: 700;
+        font-size: 15.5px;
+        color: var(--ink);
+      }
+      .item-head .ver {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--blueprint-2);
+        margin-left: 2px;
+      }
+      .tag {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        padding: 2px 8px;
+        border-radius: 20px;
+        margin-left: auto;
+        white-space: nowrap;
+      }
+      .tag.ok {
+        background: var(--ok-bg);
+        border: 1px solid var(--ok-line);
+        color: #3c6b49;
+      }
+      .tag.flag {
+        background: var(--flag-bg);
+        border: 1px solid var(--flag-line);
+        color: var(--flag);
+      }
+      .tag.na {
+        background: #eef0f2;
+        border: 1px solid var(--line);
+        color: var(--graphite);
+      }
+
+      .fields {
+        display: grid;
+        grid-template-columns: 190px 1fr;
+        font-size: 13px;
+      }
+      .fields dt {
+        padding: 9px 18px;
+        color: var(--graphite);
+        font-size: 11.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        border-top: 1px solid #eee;
+        background: #fcfcfb;
+      }
+      .fields dd {
+        margin: 0;
+        padding: 9px 18px;
+        border-top: 1px solid #eee;
+      }
+      .fields dd a {
+        color: var(--blueprint-2);
+        word-break: break-all;
+      }
+      .fields code,
+      .fields .mono {
+        font-family: var(--mono);
+        font-size: 12.5px;
+      }
+      .warn-note {
+        color: var(--amber);
+        font-size: 11.5px;
+      }
+      .justify-row textarea {
+        width: 100%;
+        min-height: 52px;
+        resize: vertical;
+        font-family: var(--sans);
+        font-size: 13px;
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        padding: 8px 10px;
+        color: var(--ink);
+      }
+
+      @media (max-width: 640px) {
+        .fields {
+          grid-template-columns: 1fr;
+        }
+        .fields dt {
+          border-bottom: none;
+          padding-bottom: 2px;
+        }
+        .fields dd {
+          border-top: none;
+          padding-top: 0 0 9px;
+        }
+        .tb-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .print-bar {
+        max-width: 960px;
+        margin: 0 auto 6px;
+        padding: 0 28px;
+        display: flex;
+        justify-content: flex-end;
+      }
+      .print-bar button {
+        font-family: var(--sans);
+        font-size: 12.5px;
+        font-weight: 600;
+        background: var(--blueprint);
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .print-bar button:hover {
+        background: var(--blueprint-2);
+      }
+
+      footer {
+        max-width: 960px;
+        margin: 40px auto 0;
+        padding: 16px 28px 0;
+        border-top: 1px solid var(--line);
+        font-size: 11.5px;
+        color: var(--graphite);
+      }
+
+      @media print {
+        body {
+          background: #fff;
+        }
+        .print-bar {
+          display: none;
+        }
+        .titleblock {
+          background: #fff !important;
+          color: #000 !important;
+          padding-top: 0;
+        }
+        .titleblock .sub {
+          color: #333 !important;
+        }
+        .tb-grid {
+          border-color: #999;
+        }
+        .tb-cell {
+          border-color: #999;
+        }
+        .tb-cell .k {
+          color: #555 !important;
+        }
+        .tb-cell .v,
+        .tb-cell input {
+          color: #000 !important;
+        }
+        .item {
+          break-inside: avoid;
+          border-color: #999;
+        }
+        .category {
+          margin-top: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="print-bar">
+      <button onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <div class="titleblock">
+      <div class="wrap">
+        <h1>Software Approval &amp; Acquisition — Reference Packet</h1>
+        <div class="sub">
+          28 ITEMS · COMPILED FROM PUBLIC VENDOR / PROJECT SOURCES · VERIFY
+          BEFORE SUBMISSION
+        </div>
+      </div>
+      <div class="tb-grid"></div>
+    </div>
+
+    <div class="wrap">
+      <div class="intro">
+        <h2>How this packet is organized</h2>
+        <p>
+          Each entry below fills the fields from your intake checklist — title,
+          version, manufacturer/developer, mailing address, company site,
+          software type, foreign-development status, dependencies, and download
+          URL — for the 28 packages listed on your second note.
+          <strong>Justification</strong> is left blank for you to fill in per
+          package, since only you know the specific use case.
+        </p>
+        <p>
+          Version numbers and release dates were current as of research (early
+          August 2026). Fast-moving projects ship patches frequently — items
+          flagged <span class="warn-note">⚠ verify current version</span> should
+          be double-checked against the download URL right before you submit.
+        </p>
+        <div class="legend">
+          <span
+            ><span class="dot ok"></span> US-origin manufacturer / no
+            foreign-development concern</span
+          >
+          <span
+            ><span class="dot flag"></span> Foreign-developed — US alternative
+            suggested</span
+          >
+          <span
+            ><span class="dot warn"></span> Community project — no single
+            corporate entity of record</span
+          >
+        </div>
+      </div>
+
+      <!-- ================= CATEGORY 1 ================= -->
+      <div class="category">
+        <span class="num">01</span>
+        <h2>Data Infrastructure &amp; Time-Series</h2>
+        <span class="count">4 items</span>
+      </div>
+      <hr class="rule" />
+
+      <!-- InfluxDB -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">1</span><span class="name">InfluxDB</span
+          ><span class="ver mono">v3.9.2 (InfluxDB 3 Core-Free)</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            3.9.2
+            <span class="warn-note"
+              >⚠ verify current — releases ship roughly monthly</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>InfluxData, Inc.</dd>
+          <dt>Mailing Address</dt>
+          <dd>548 Market St, PMB 77953, San Francisco, CA 94104, USA</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://www.influxdata.com" target="_blank"
+              >influxdata.com</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>
+            Open Source (MIT / Apache 2.0 core) — commercial Enterprise/Cloud
+            tier also offered
+          </dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — US company, San Francisco, CA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Self-contained (Rust binary); Apache Parquet/Arrow bundled.
+            Optional: Telegraf for metrics collection, object storage (S3/local
+            disk) for 3.x
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://github.com/influxdata/influxdb/releases"
+              target="_blank"
+              >github.com/influxdata/influxdb/releases</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+      <!-- Django -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">17</span><span class="name">Django</span
+          ><span class="ver mono">v5.2.9 LTS / v6.0.x</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            5.2.9 is the current LTS line (Dec 2, 2025); 6.0 is the current
+            short-term-support line (Dec 3, 2025)
+            <span class="warn-note"
+              >⚠ verify exact current patch at download URL — PyPI shows a newer
+              release as of Aug 5, 2026</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            Django Software Foundation (originally created by Adrian Holovaty
+            and Simon Willison)
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            Django Software Foundation, a US 501(c)(3) nonprofit — registered
+            address at djangoproject.com/foundation
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://www.djangoproject.com" target="_blank"
+              >djangoproject.com</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (BSD 3-Clause)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — Django Software Foundation, US nonprofit</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python 3.12+; a database driver for your target DB (SQLite ships
+            built-in)
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/Django/" target="_blank"
+              >pypi.org/project/Django</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea
+              placeholder="Why you need it — note: required base framework for django-celery-results and django-environ below"
+            ></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Telegraf -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">2</span><span class="name">Telegraf</span
+          ><span class="ver mono">1.3x line</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            See releases page
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>InfluxData, Inc.</dd>
+          <dt>Mailing Address</dt>
+          <dd>548 Market St, PMB 77953, San Francisco, CA 94104, USA</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://www.influxdata.com" target="_blank"
+              >influxdata.com</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT) — Telegraf Enterprise also offered</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — US company, San Francisco, CA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Self-contained (Go binary, statically compiled); output plugin
+            config for InfluxDB/other targets
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://github.com/influxdata/telegraf/releases"
+              target="_blank"
+              >github.com/influxdata/telegraf/releases</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- InfluxQL -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">3</span><span class="name">InfluxQL</span
+          ><span class="ver mono">bundled</span
+          ><span class="tag na">N/A — not standalone</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd>
+            N/A — InfluxQL is a query language bundled with InfluxDB, not a
+            separately installed package
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>InfluxData, Inc.</dd>
+          <dt>Mailing Address</dt>
+          <dd>548 Market St, PMB 77953, San Francisco, CA 94104, USA</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://www.influxdata.com" target="_blank"
+              >influxdata.com</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (part of InfluxDB core)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — US company, San Francisco, CA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Requires an InfluxDB instance (1.x, 2.x compatibility mode, or 3.x)
+          </dd>
+          <dt>Download URL</dt>
+          <dd>N/A — included with InfluxDB install</dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Redis -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">4</span><span class="name">Redis</span
+          ><span class="ver mono">v8.8.1</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">8.8.1 (July 23, 2026)</dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Redis Ltd. (Redis, Inc.)</dd>
+          <dt>Mailing Address</dt>
+          <dd>San Francisco, CA, USA — exact suite listed at redis.io/legal</dd>
+          <dt>Company Site</dt>
+          <dd><a href="https://redis.io" target="_blank">redis.io</a></dd>
+          <dt>Type of Software</dt>
+          <dd>
+            Open Source — tri-licensed RSALv2 / SSPLv1 / AGPLv3 (as of 8.0);
+            commercial Redis Enterprise also offered.
+            <span class="warn-note"
+              >⚠ note license changed twice since 2024 — confirm which license
+              applies to your use</span
+            >
+          </dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            No — US company (San Francisco); originally founded in Israel, now
+            headquartered in the US
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>Self-contained (C, POSIX); no external runtime required</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://redis.io/downloads/" target="_blank"
+              >redis.io/downloads</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- ================= CATEGORY 2 ================= -->
+      <div class="category">
+        <span class="num">02</span>
+        <h2>Python Web &amp; API Frameworks</h2>
+        <span class="count">6 items</span>
+      </div>
+      <hr class="rule" />
+
+      <!-- Flask -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">5</span><span class="name">Flask</span
+          ><span class="ver mono">v3.1.3</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">3.1.3 (Feb 19, 2026)</dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            Open-source community project — Pallets Projects (originally Armin
+            Ronacher)
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://palletsprojects.com/p/flask/" target="_blank"
+              >palletsprojects.com/p/flask</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (BSD 3-Clause)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            No formal corporate entity to assess; maintainers globally
+            distributed
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>Python 3.9+, Werkzeug, Jinja2, itsdangerous, click, blinker</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/Flask/" target="_blank"
+              >pypi.org/project/Flask</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- FastAPI -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">6</span><span class="name">FastAPI</span
+          ><span class="ver mono">v0.136.1</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            0.136.1
+            <span class="warn-note">⚠ verify current — ships frequently</span>
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Open-source community project (created by Sebastián Ramírez)</dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://fastapi.tiangolo.com" target="_blank"
+              >fastapi.tiangolo.com</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            No formal corporate entity to assess; maintainers globally
+            distributed
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python 3.10+, Starlette, Pydantic v2; Uvicorn (ASGI server) for
+            local/production serving
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/fastapi/" target="_blank"
+              >pypi.org/project/fastapi</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Uvicorn -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">7</span><span class="name">Uvicorn</span
+          ><span class="ver mono">0.3x line</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            See PyPI
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Open-source community project (Encode)</dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://www.uvicorn.org" target="_blank">uvicorn.org</a>
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (BSD 3-Clause)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No formal corporate entity to assess</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python 3.9+; ASGI-compliant application (FastAPI/Starlette);
+            optional uvloop &amp; httptools for performance
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/uvicorn/" target="_blank"
+              >pypi.org/project/uvicorn</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Gunicorn -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">8</span><span class="name">Gunicorn</span
+          ><span class="ver mono">23.x line</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            23.x
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Open-source community project</dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://gunicorn.org" target="_blank">gunicorn.org</a>
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No formal corporate entity to assess</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python 3.x, a WSGI-compliant application (Flask/Django); optional
+            gevent/eventlet worker classes
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/gunicorn/" target="_blank"
+              >pypi.org/project/gunicorn</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- WSGI -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">9</span><span class="name">WSGI</span
+          ><span class="ver mono">PEP 3333</span
+          ><span class="tag na">N/A — spec, not software</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd>
+            N/A — WSGI is a Python interface specification (PEP 3333), not an
+            installable package
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Python Software Foundation (specification authors)</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            Python Software Foundation, PO Box 5786, Portsmouth, NH 03802, USA
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://peps.python.org/pep-3333/" target="_blank"
+              >peps.python.org/pep-3333</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open standard / specification (not licensed software)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — Python Software Foundation, US nonprofit</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            N/A — it is an interface convention implemented by Flask, Gunicorn,
+            Django, etc., not installed on its own
+          </dd>
+          <dt>Download URL</dt>
+          <dd>N/A — nothing to download; it's a specification</dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- ASGI -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">10</span><span class="name">ASGI</span
+          ><span class="ver mono">spec</span
+          ><span class="tag na">N/A — spec, not software</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd>
+            N/A — ASGI is an asynchronous server interface specification, not an
+            installable package
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Open-source community (Encode / Django async project)</dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community specification, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://asgi.readthedocs.io" target="_blank"
+              >asgi.readthedocs.io</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open standard / specification (not licensed software)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No formal corporate entity to assess</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            N/A — implemented by Uvicorn, FastAPI, Starlette, Django Channels,
+            etc., not installed on its own
+          </dd>
+          <dt>Download URL</dt>
+          <dd>N/A — nothing to download; it's a specification</dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- ================= CATEGORY 3 ================= -->
+      <div class="category">
+        <span class="num">03</span>
+        <h2>Python Data, Task Queue &amp; Config Utilities</h2>
+        <span class="count">6 items</span>
+      </div>
+      <hr class="rule" />
+
+      <!-- SQLAlchemy -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">11</span><span class="name">SQLAlchemy</span
+          ><span class="ver mono">v2.0.51</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">2.0.51 (2.1 series in beta)</dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Open-source community project (created by Michael Bayer)</dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://www.sqlalchemy.org" target="_blank"
+              >sqlalchemy.org</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No formal corporate entity to assess</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python 3.7+; a DB-API driver for your target database (e.g.
+            psycopg2, PyMySQL)
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/SQLAlchemy/" target="_blank"
+              >pypi.org/project/SQLAlchemy</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Pandas -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">12</span><span class="name">Pandas</span
+          ><span class="ver mono">v3.0.5</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">3.0.5 (July 22, 2026)</dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            Open-source community project; fiscally sponsored by NumFOCUS, Inc.
+            (US 501(c)(3))
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            N/A — community project; NumFOCUS contact info at numfocus.org
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://pandas.pydata.org" target="_blank"
+              >pandas.pydata.org</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (BSD 3-Clause)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            No — fiscal sponsor (NumFOCUS) is a US nonprofit; maintainers
+            globally distributed
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>Python 3.11+, NumPy, python-dateutil, pytz/tzdata</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/pandas/" target="_blank"
+              >pypi.org/project/pandas</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Celery -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">13</span><span class="name">Celery</span
+          ><span class="ver mono">v5.6.3</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">5.6.3</dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Open-source community project (created by Ask Solem)</dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://docs.celeryq.dev" target="_blank"
+              >docs.celeryq.dev</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (BSD License)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No formal corporate entity to assess</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python 3.8+, kombu, billiard, vine; a message broker (Redis or
+            RabbitMQ)
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/celery/" target="_blank"
+              >pypi.org/project/celery</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- django-celery-results -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">14</span
+          ><span class="name">django-celery-results</span
+          ><span class="ver mono">2.x line</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            2.x
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Open-source community project (Celery Project)</dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a
+              href="https://github.com/celery/django-celery-results"
+              target="_blank"
+              >github.com/celery/django-celery-results</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (BSD License)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No formal corporate entity to assess</dd>
+          <dt>Software Dependencies</dt>
+          <dd>Django, Celery</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://pypi.org/project/django-celery-results/"
+              target="_blank"
+              >pypi.org/project/django-celery-results</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- django-environ -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">15</span><span class="name">django-environ</span
+          ><span class="ver mono">0.1x line</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            0.1x
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Open-source community project</dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://django-environ.readthedocs.io" target="_blank"
+              >django-environ.readthedocs.io</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No formal corporate entity to assess</dd>
+          <dt>Software Dependencies</dt>
+          <dd>Python, Django</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/django-environ/" target="_blank"
+              >pypi.org/project/django-environ</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- python-dotenv -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">16</span><span class="name">python-dotenv</span
+          ><span class="ver mono">1.x line</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            1.x
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            Open-source community project (Saurabh Kumar and contributors)
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no corporate entity</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://github.com/theskumar/python-dotenv" target="_blank"
+              >github.com/theskumar/python-dotenv</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (BSD 3-Clause)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No formal corporate entity to assess</dd>
+          <dt>Software Dependencies</dt>
+          <dd>Python 3.8+; no external runtime dependencies</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/python-dotenv/" target="_blank"
+              >pypi.org/project/python-dotenv</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- ================= CATEGORY 4 ================= -->
+      <div class="category">
+        <span class="num">04</span>
+        <h2>Languages &amp; Build Tooling</h2>
+        <span class="count">2 items</span>
+      </div>
+      <hr class="rule" />
+
+      <!-- Go -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">17</span><span class="name">Go</span
+          ><span class="ver mono">v1.26.5</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">1.26.5 (July 7, 2026)</dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Google LLC / The Go Authors</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA
+          </dd>
+          <dt>Company Site</dt>
+          <dd><a href="https://go.dev" target="_blank">go.dev</a></dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (BSD 3-Clause + patent grant)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — Google LLC, Mountain View, CA, USA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>Self-contained toolchain; no external runtime required</dd>
+          <dt>Download URL</dt>
+          <dd><a href="https://go.dev/dl/" target="_blank">go.dev/dl</a></dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Starlark -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">18</span><span class="name">Starlark</span
+          ><span class="ver mono">spec / impl-versioned</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd>
+            N/A as a single version — Starlark is a language spec; version
+            tracks the implementation you install (e.g. Bazel, or the standalone
+            starlark-go interpreter)
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Google LLC (created for the Bazel build system)</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://github.com/bazelbuild/starlark" target="_blank"
+              >github.com/bazelbuild/starlark</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (Apache 2.0)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — Google LLC, Mountain View, CA, USA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Used embedded within Bazel, Buck2, or a standalone interpreter (e.g.
+            starlark-go, Python starlark)
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://github.com/bazelbuild/starlark" target="_blank"
+              >github.com/bazelbuild/starlark</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- ================= CATEGORY 5 ================= -->
+      <div class="category">
+        <span class="num">05</span>
+        <h2>Browser Automation &amp; QA</h2>
+        <span class="count">4 items</span>
+      </div>
+      <hr class="rule" />
+
+      <!-- Selenium -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">19</span><span class="name">Selenium</span
+          ><span class="ver mono">v4.46.0</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">4.46.0 (July 11, 2026)</dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            Selenium Project; nonprofit fiscal steward: Software Freedom
+            Conservancy
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            Software Freedom Conservancy, Brooklyn, NY, USA — exact suite at
+            sfconservancy.org
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://www.selenium.dev" target="_blank">selenium.dev</a>
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (Apache 2.0)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            No — nonprofit steward (Software Freedom Conservancy) is US-based
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Language bindings (Python/Java/JS/etc.), a browser driver
+            (geckodriver, ChromeDriver, etc.), and the matching browser
+            installed
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://www.selenium.dev/downloads/" target="_blank"
+              >selenium.dev/downloads</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- geckodriver -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">20</span><span class="name">geckodriver</span
+          ><span class="ver mono">v0.37.0 / 0.37.1</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            0.37.0 (June 3, 2026); patch 0.37.1 addresses an Android startup
+            issue
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Mozilla Corporation / Mozilla Foundation</dd>
+          <dt>Mailing Address</dt>
+          <dd>Mozilla, 149 New Montgomery St, San Francisco, CA 94105, USA</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a
+              href="https://firefox-source-docs.mozilla.org/testing/geckodriver/"
+              target="_blank"
+              >firefox-source-docs.mozilla.org/testing/geckodriver</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MPL 2.0)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — Mozilla, San Francisco, CA, USA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Firefox browser installed (matching supported version); works
+            standalone or via Selenium 3.11+
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://github.com/mozilla/geckodriver/releases"
+              target="_blank"
+              >github.com/mozilla/geckodriver/releases</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- ChromeDriver -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">21</span><span class="name">ChromeDriver</span
+          ><span class="ver mono">v151.0.7922.109</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            151.0.7922.109
+            <span class="warn-note"
+              >⚠ must match your installed Chrome major version exactly</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Google LLC (Chromium Project)</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a
+              href="https://developer.chrome.com/docs/chromedriver"
+              target="_blank"
+              >developer.chrome.com/docs/chromedriver</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (BSD 3-Clause, Chromium project)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — Google LLC, Mountain View, CA, USA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Google Chrome (or Chrome for Testing) installed at the matching
+            major version
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://googlechromelabs.github.io/chrome-for-testing/"
+              target="_blank"
+              >googlechromelabs.github.io/chrome-for-testing</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Robot Framework -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">22</span><span class="name">Robot Framework</span
+          ><span class="ver mono">v7.4.2</span
+          ><span class="tag flag">Foreign — Finland</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">7.4.2</dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            Robot Framework Foundation (originally created at Nokia Networks)
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>Robot Framework Foundation, Helsinki, Finland</dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://robotframework.org" target="_blank"
+              >robotframework.org</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (Apache 2.0)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            <strong>Yes — Finland.</strong> Robot Framework Foundation is a
+            Finnish nonprofit; the project originated at Nokia Networks
+            (Finland). US-developed alternative: <strong>pytest</strong> with
+            the Selenium/requests libraries (US nonprofit-stewarded via Software
+            Freedom Conservancy), or
+            <strong>Robot Framework's own SeleniumLibrary</strong> is
+            community-maintained separately if only the automation layer is the
+            concern — flag this for review either way.
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python 3.x; libraries such as SeleniumLibrary for browser automation
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://pypi.org/project/robotframework/" target="_blank"
+              >pypi.org/project/robotframework</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- ================= CATEGORY 6 ================= -->
+      <div class="category">
+        <span class="num">06</span>
+        <h2>JavaScript / Node Frameworks</h2>
+        <span class="count">5 items</span>
+      </div>
+      <hr class="rule" />
+
+      <!-- React -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">23</span><span class="name">React</span
+          ><span class="ver mono">v19.2.6</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">19.2.6 (May 6, 2026)</dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            Originally created by Meta Platforms, Inc.; as of Oct 2025 stewarded
+            by the <strong>React Foundation</strong>, a Linux Foundation project
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            The Linux Foundation, 548 Market St, San Francisco, CA 94104, USA
+            (exact PMB at linuxfoundation.org); originating company Meta
+            Platforms, Inc., 1 Hacker Way, Menlo Park, CA 94025, USA
+          </dd>
+          <dt>Company Site</dt>
+          <dd><a href="https://react.dev" target="_blank">react.dev</a></dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT License)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            No — US-governed (Linux Foundation, San Francisco). Note: React
+            Foundation's founding members include some non-US companies (e.g.
+            Huawei) as sponsors, but project governance and legal home are
+            US-based
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Node.js and npm/yarn for build tooling; no runtime dependency for
+            the library itself
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://www.npmjs.com/package/react" target="_blank"
+              >npmjs.com/package/react</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Next.js -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">24</span><span class="name">Next.js</span
+          ><span class="ver mono">v16.3 (16.2.11 LTS)</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            16.3 current; 16.2.11 is the Active LTS line, 15.5.21 Maintenance
+            LTS
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Vercel Inc. and the open-source community</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            Vercel Inc., San Francisco, CA, USA — exact suite at vercel.com
+            legal
+          </dd>
+          <dt>Company Site</dt>
+          <dd><a href="https://nextjs.org" target="_blank">nextjs.org</a></dd>
+          <dt>Type of Software</dt>
+          <dd>
+            Open Source (MIT); Vercel's hosting platform is a separate
+            commercial offering
+          </dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — Vercel Inc., San Francisco, CA, USA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>Node.js, React; npm/yarn/pnpm for package management</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://www.npmjs.com/package/next" target="_blank"
+              >npmjs.com/package/next</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Express.js -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">25</span><span class="name">Express.js</span
+          ><span class="ver mono">5.x line</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            5.x
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>OpenJS Foundation (At-Large project)</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            OpenJS Foundation, 548 Market St, PMB 57274, San Francisco, CA
+            94104-5401, USA
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://expressjs.com" target="_blank">expressjs.com</a>
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — OpenJS Foundation, San Francisco, CA, USA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>Node.js</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://www.npmjs.com/package/express" target="_blank"
+              >npmjs.com/package/express</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Fastify -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">26</span><span class="name">Fastify</span
+          ><span class="ver mono">5.x line</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            5.x (main branch)
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            OpenJS Foundation (At-Large project); partially sponsored by
+            NearForm
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            OpenJS Foundation, 548 Market St, PMB 57274, San Francisco, CA
+            94104-5401, USA
+          </dd>
+          <dt>Company Site</dt>
+          <dd><a href="https://fastify.dev" target="_blank">fastify.dev</a></dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>No — OpenJS Foundation, San Francisco, CA, USA</dd>
+          <dt>Software Dependencies</dt>
+          <dd>Node.js</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://www.npmjs.com/package/fastify" target="_blank"
+              >npmjs.com/package/fastify</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- Socket.IO -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">27</span><span class="name">Socket.IO</span
+          ><span class="ver mono">4.8.x line</span
+          ><span class="tag warn">Community</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            4.8.x
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            Open-source community project (created by Guillermo Rauch, now
+            Vercel's CEO); not an OpenJS Foundation project
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>N/A — community project, no single corporate entity of record</dd>
+          <dt>Company Site</dt>
+          <dd><a href="https://socket.io" target="_blank">socket.io</a></dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            No formal corporate entity to assess; original creator is US-based
+            (Vercel)
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>Node.js (server side); Engine.IO transport layer</dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a href="https://www.npmjs.com/package/socket.io" target="_blank"
+              >npmjs.com/package/socket.io</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <!-- ================= CATEGORY 7 ================= -->
+      <div class="category">
+        <span class="num">07</span>
+        <h2>Development Environment</h2>
+        <span class="count">1 item</span>
+      </div>
+      <hr class="rule" />
+
+      <!-- PyCharm -->
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">28</span><span class="name">PyCharm</span
+          ><span class="ver mono">2025.2 / 2026.x line</span
+          ><span class="tag flag">Foreign — Czech Republic</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            Last confirmed public data point: 2025.2.0.1 (Aug 2025)
+            <span class="warn-note"
+              >⚠ verify current 2026.x build at jetbrains.com before
+              submitting</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>JetBrains s.r.o.</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            JetBrains s.r.o., Prague, Czech Republic — exact street address at
+            jetbrains.com/company/contacts/prague
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://www.jetbrains.com/pycharm/" target="_blank"
+              >jetbrains.com/pycharm</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>
+            Commercial (Professional edition, subscription); free Community
+            edition available under Apache 2.0
+          </dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            <strong>Yes — Czech Republic (EU).</strong> JetBrains s.r.o. is
+            headquartered in Prague; founded by three Russian developers in
+            2000. US-developed alternative:
+            <strong>Microsoft Visual Studio Code</strong> (Microsoft
+            Corporation, Redmond, WA, USA) with the Python extension — free and
+            widely already approved in most enterprise environments.
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Bundled JetBrains Runtime (JBR, based on OpenJDK); ~2–3 GB disk
+            space
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://www.jetbrains.com/pycharm/download/"
+              target="_blank"
+              >jetbrains.com/pycharm/download</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it..."></textarea>
+          </dd>
+        </dl>
+      </div>
+    </div>
+
+    <footer>
+      Compiled from publicly available vendor documentation, project release
+      pages, and Wikipedia/company-registry entries as of early August 2026.
+      This packet is a starting draft for your own review — confirm exact
+      current version numbers, license terms, and mailing addresses against the
+      linked official sources before formal submission, and fill in the
+      Justification field for each item you're actually requesting.
+    </footer>
+  </body>
+</html>
