@@ -1,0 +1,302 @@
+<!-- Django OIDC / SAML authentication packages (AWS: Cognito / IAM Identity Center) -->
+<!-- Items marked with .warn-note could not be confirmed from a primary source: verify before submitting. -->
+
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">1</span><span class="name">mozilla-django-oidc</span
+          ><span class="ver mono">5.0.x line</span
+          ><span class="tag ok">US origin</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            5.0.2 (latest seen on PyPI)
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Mozilla (open-source project, github.com/mozilla)</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            Mozilla Corporation, 149 New Montgomery St, 4th Floor, San
+            Francisco, CA 94105, USA
+            <span class="warn-note">⚠ verify current address</span>
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://www.mozilla.org" target="_blank">mozilla.org</a>
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MPL-2.0)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            No — US organization (San Francisco, CA); community contributions
+            come from worldwide contributors
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python package; requires Django, requests, josepy, cryptography
+            (see PyPI metadata for exact pins)
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://github.com/mozilla/mozilla-django-oidc"
+              target="_blank"
+              >github.com/mozilla/mozilla-django-oidc</a
+            >
+            ·
+            <a href="https://pypi.org/project/mozilla-django-oidc/" target="_blank"
+              >pypi.org/project/mozilla-django-oidc</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it...">OpenID Connect client for the Django backend. Lets users sign in through the AWS OIDC provider (Amazon Cognito) as a standard Django authentication backend, so we do not have to write and maintain our own token validation.</textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">2</span><span class="name">django-allauth</span
+          ><span class="ver mono">65.x line</span
+          ><span class="tag warn">Foreign origin — verify</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            65.18.0 or later (a SAML open-redirect fix, CVE-2026-27982, is
+            listed in the 65.18.0 distro changelog)
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>Raymond Penners (pennersr) and contributors — allauth project</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            N/A — individual-maintained open source project
+            <span class="warn-note">⚠ confirm if the form requires one</span>
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://allauth.org" target="_blank">allauth.org</a>
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            Likely yes — lead maintainer is based outside the US
+            <span class="warn-note">⚠ verify maintainer location</span>
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python package; requires Django and asgiref. Extras:
+            <span class="mono">[socialaccount]</span> adds requests, PyJWT,
+            cryptography (OIDC); <span class="mono">[saml]</span> adds
+            python3-saml (see item 5)
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://codeberg.org/allauth/django-allauth"
+              target="_blank"
+              >codeberg.org/allauth/django-allauth</a
+            >
+            ·
+            <a href="https://pypi.org/project/django-allauth/" target="_blank"
+              >pypi.org/project/django-allauth</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it...">Alternative to using separate OIDC and SAML libraries: one package that provides both OIDC and SAML 2.0 login for Django. Only one of mozilla-django-oidc or django-allauth will be used.</textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">3</span><span class="name">djangosaml2</span
+          ><span class="ver mono">1.1x line</span
+          ><span class="tag warn">Foreign origin — verify</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            See PyPI (releases seen from 1.10 to 1.12)
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            IdentityPython community (original author Yaco Sistemas;
+            maintainer Giuseppe De Marco)
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            N/A — community-maintained open source project
+            <span class="warn-note">⚠ confirm if the form requires one</span>
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://github.com/IdentityPython" target="_blank"
+              >github.com/IdentityPython</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (Apache-2.0)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            Yes — originated outside the US (Yaco Sistemas) and maintained by
+            an international community
+            <span class="warn-note">⚠ verify current maintainer location</span>
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python package; requires Django, pysaml2 (item 4), defusedxml.
+            System dependency: xmlsec1 binary
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://github.com/IdentityPython/djangosaml2"
+              target="_blank"
+              >github.com/IdentityPython/djangosaml2</a
+            >
+            ·
+            <a href="https://pypi.org/project/djangosaml2/" target="_blank"
+              >pypi.org/project/djangosaml2</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it...">SAML 2.0 service provider for Django. Needed only if SAML is selected over OIDC, for example to sign in through AWS IAM Identity Center or another SAML identity provider.</textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">4</span><span class="name">PySAML2</span
+          ><span class="ver mono">7.5.x line</span
+          ><span class="tag warn">Foreign origin — verify</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            7.5.x (7.5.5 seen on PyPI)
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>IdentityPython community (original author Roland Hedberg)</dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            N/A — community-maintained open source project
+            <span class="warn-note">⚠ confirm if the form requires one</span>
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://github.com/IdentityPython" target="_blank"
+              >github.com/IdentityPython</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (Apache-2.0)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            Yes — originated outside the US (Roland Hedberg) and maintained
+            by an international community
+            <span class="warn-note">⚠ verify</span>
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python package; requires cryptography, defusedxml, pyOpenSSL,
+            python-dateutil, requests, xmlschema (see PyPI metadata). System
+            dependency: xmlsec1 binary
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://github.com/IdentityPython/pysaml2"
+              target="_blank"
+              >github.com/IdentityPython/pysaml2</a
+            >
+            ·
+            <a href="https://pypi.org/project/pysaml2/" target="_blank"
+              >pypi.org/project/pysaml2</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it...">Required dependency of djangosaml2. Implements the SAML 2.0 protocol (assertions, signatures, metadata).</textarea>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="item">
+        <div class="item-head">
+          <span class="idx">5</span><span class="name">python3-saml</span
+          ><span class="ver mono">1.16.x line</span
+          ><span class="tag warn">Foreign origin — verify</span>
+        </div>
+        <dl class="fields">
+          <dt>Version</dt>
+          <dd class="mono">
+            1.16.0 (latest seen on PyPI)
+            <span class="warn-note"
+              >⚠ verify current version at download URL</span
+            >
+          </dd>
+          <dt>Manufacturer / Developer</dt>
+          <dd>
+            SAML-Toolkits (maintained by Sixto Martin, IAM Digital Services
+            SL; originally developed at OneLogin)
+          </dd>
+          <dt>Mailing Address</dt>
+          <dd>
+            N/A — open source project
+            <span class="warn-note">⚠ confirm if the form requires one</span>
+          </dd>
+          <dt>Company Site</dt>
+          <dd>
+            <a href="https://github.com/SAML-Toolkits" target="_blank"
+              >github.com/SAML-Toolkits</a
+            >
+          </dd>
+          <dt>Type of Software</dt>
+          <dd>Open Source (MIT)</dd>
+          <dt>Foreign Developed?</dt>
+          <dd>
+            Yes — current maintainer's company is outside the US (originally
+            OneLogin, US)
+            <span class="warn-note">⚠ verify</span>
+          </dd>
+          <dt>Software Dependencies</dt>
+          <dd>
+            Python package; requires xmlsec (Python bindings), lxml, isodate.
+            System dependencies: libxml2, libxmlsec1
+          </dd>
+          <dt>Download URL</dt>
+          <dd>
+            <a
+              href="https://github.com/SAML-Toolkits/python3-saml"
+              target="_blank"
+              >github.com/SAML-Toolkits/python3-saml</a
+            >
+            ·
+            <a href="https://pypi.org/project/python3-saml/" target="_blank"
+              >pypi.org/project/python3-saml</a
+            >
+          </dd>
+          <dt>Justification</dt>
+          <dd class="justify-row">
+            <textarea placeholder="Why you need it...">Required by django-allauth's SAML extra if django-allauth is selected for SAML 2.0 login. Not needed if djangosaml2 is used instead.</textarea>
+          </dd>
+        </dl>
+      </div>
